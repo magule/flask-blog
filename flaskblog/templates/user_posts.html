@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+	<h1 class="mb-3">{{ user.username }} ({{ posts.total }} ileti)</h1>
+	{% for post in posts.items %}
+		<article class="media content-section">
+		  <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"><!-- we can just write author at the top bc athor is a back referance which gives us access to that entire user and their attributes and that image file is an attribute of that user -->  
+		  <div class="media-body">
+		    <div class="article-metadata">
+		      <a class="mr-2" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a> <!-- check this again-->
+		      <small class="text-muted">{{ post.date_posted.strftime('%d-%m-%Y--%H:%M') }}</small>
+		    </div>
+		    <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2> <!-- check this again  -->
+		    <p class="article-content">{{ post.content }}</p>
+		  </div>
+		</article>
+	{% endfor %}
+	{% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}<!-- creating links for pgs-->
+		{% if page_num %}
+			{% if posts.page == page_num %} <!-- bulunan sayfanın numarasının stilini ayarlama-->
+				<a class="btn btn-info mb-4" href="{{ url_for('users.user_posts', username=user.username, page=page_num) }}"> {{ page_num }}</a>
+			{% else %}
+				<a class="btn btn-outline-info mb-4" href="{{ url_for('users.user_posts', username=user.username, page=page_num) }}"> {{ page_num }}</a>
+			{% endif %}
+		{% else %}<!-- if page num is nun -->
+		  ...
+		{% endif %}
+	{% endfor %}
+{% endblock content %}

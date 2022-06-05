@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="content-section">
+		<form method="POST" action="">
+			{{ form.hidden_tag() }} <!-- security thing --> 
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4">Sifreyi sifirla.</legend>
+				<!-- alttakileri forms.py den cekicek  work on these again--> 
+				<div class="form-group">
+					{{ form.email.label(class="form-control-label") }}
+					{% if form.email.errors %}<!--girdigin usernamede hata varsa--> 
+						{{ form.email(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.email.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.email(class="form-control form-control-lg") }} <!--valid field? lg??--> 
+					{% endif %}
+				</div>			
+			</fieldset>
+			<div class="form-group">
+				{{ form.submit(class="btn btn-outline-info") }}
+			</div>
+		</form>
+	</div>
+{% endblock content %}
+
+		
